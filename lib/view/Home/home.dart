@@ -1,6 +1,7 @@
 import 'package:crime_analysis_flutter/controllers/services/Complain%20Services/complain_services.dart';
 import 'package:crime_analysis_flutter/model/complain_model.dart';
 import 'package:crime_analysis_flutter/view/Home/custom_buttons.dart';
+import 'package:crime_analysis_flutter/view/Home/location.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -55,14 +56,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   return const CircularProgressIndicator();
                 } else if (snapshot.hasData) {
                   ComplainModel complains = snapshot.data!;
-                  // controllerMap.animateCamera(CameraUpdate.newCameraPosition(
-                  //     CameraPosition(
-                  //         target: LatLng(
-                  //             double.parse(complains.response![0].latitude!),
-                  //             double.parse(complains.response![0].longitude!)),
-                  //         zoom: 14.4746)));
-
-                  for (var location in complains.response!) {
+                  List closesrLocations =
+                      getClosestLocations(complains.response!);
+                  for (var location in closesrLocations) {
                     marker.add(Marker(
                       onTap: () {
                         showBarModalBottomSheet(

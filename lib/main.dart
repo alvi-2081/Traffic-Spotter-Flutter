@@ -2,9 +2,13 @@ import 'package:crime_analysis_flutter/utilities/routes.dart';
 import 'package:crime_analysis_flutter/view/Auth/SignIn/sign_In.dart';
 import 'package:crime_analysis_flutter/view/Home/home.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
-void main() {
+Position? position;
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  position = await Geolocator.getCurrentPosition();
   runApp(const MyApp());
 }
 

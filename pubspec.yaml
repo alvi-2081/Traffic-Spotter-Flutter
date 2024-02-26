@@ -43,6 +43,8 @@ dependencies:
   modal_bottom_sheet: ^3.0.0-pre
   geolocator: ^10.1.0
   google_fonts: ^4.0.4
+  latlng: ^2.0.7
+  latlong2: ^0.9.0
 
 
 dev_dependencies:
