@@ -53,12 +53,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   return const CircularProgressIndicator();
                 } else if (snapshot.hasData) {
                   ComplainModel complains = snapshot.data!;
-                  controllerMap.animateCamera(CameraUpdate.newCameraPosition(
-                      CameraPosition(
-                          target: LatLng(
-                              double.parse(complains.response![0].latitude!),
-                              double.parse(complains.response![0].longitude!)),
-                          zoom: 14.4746)));
+                  // controllerMap.animateCamera(CameraUpdate.newCameraPosition(
+                  //     CameraPosition(
+                  //         target: LatLng(
+                  //             double.parse(complains.response![0].latitude!),
+                  //             double.parse(complains.response![0].longitude!)),
+                  //         zoom: 14.4746)));
                   for (Response location in complains.response!) {
                     marker.add(Marker(
                       markerId: MarkerId(location.id.toString()),
