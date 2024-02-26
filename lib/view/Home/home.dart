@@ -82,8 +82,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                       markerId: MarkerId(location.id.toString()),
-                      position: LatLng(double.parse(location.latitude!),
-                          double.parse(location.longitude!)),
+                      position: LatLng(
+                          double.tryParse(location.latitude!) ?? 00,
+                          double.tryParse(location.longitude!) ?? 00),
                     ));
                   }
                   setState(() {});
