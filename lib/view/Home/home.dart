@@ -59,6 +59,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               double.parse(complains.response![0].latitude!),
                               double.parse(complains.response![0].longitude!)),
                           zoom: 14.4746)));
+                  for (Response location in complains.response!) {
+                    marker.add(Marker(
+                      markerId: MarkerId(location.id.toString()),
+                      position: LatLng(double.parse(location.latitude!),
+                          double.parse(location.longitude!)),
+                    ));
+                  }
+                  setState(() {});
                   return GoogleMap(
                       initialCameraPosition: initailCameraPosition,
                       markers: marker,
