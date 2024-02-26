@@ -39,7 +39,7 @@ class _RecentComplainsState extends State<RecentComplains> {
                                       complainData:
                                           snapshot.data?.response![index]);
                                 }),
-                          ),
+                          ), 
                           InkWell(
                             onTap: () => setState(() {
                               count = count + 10;

@@ -1,10 +1,8 @@
-import 'dart:async';
-import 'dart:developer';
 import 'package:crime_analysis_flutter/controllers/services/Complain%20Services/complain_services.dart';
+import 'package:crime_analysis_flutter/model/complain_model.dart';
 import 'package:crime_analysis_flutter/utilities/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -36,197 +34,43 @@ class _HomeScreenState extends State<HomeScreen> {
   };
   // final List<Marker> _list = [];
 
-  void handleSearch(context) async {
-    setState(() {
-      loading = true;
-    });
-    await searchComplain(
-            area: searchQueryController.text,
-            fromDate:
-                DateFormat('yyyy-MM-dd HH:mm:ss').format(startDate).toString(),
-            toDate:
-                DateFormat('yyyy-MM-dd HH:mm:ss').format(endDate).toString())
-        .then((value) {
-      if (value!.response != null) {
-        for (var i in value.response!) {
-          marker.add(Marker(
-            markerId: MarkerId(i.id.toString()),
-            position:
-                LatLng(double.parse(i.latitude!), double.parse(i.longitude!)),
-          ));
-        }
-
-        log(marker.toString());
-      } else {
-        setState(() {
-          // _list.clear();
-          marker.clear();
-        });
-      }
-      setState(() {
-        loading = false;
-      });
-    });
-  }
-
   @override
   void initState() {
     super.initState();
-    // _marker.addAll(_list);
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      top: true,
-      bottom: true,
-      child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size(MediaQuery.of(context).size.width * 1, 115),
-            child: Column(
-              children: [
-                Container(
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 0),
-                    child: TextField(
-                      controller: searchQueryController,
-                      decoration: InputDecoration(
-                        suffixIcon: searched
-                            ? InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    searched = !searched;
-                                  });
-
-                                  searchQueryController.clear();
-                                },
-                                child: const Icon(
-                                  Icons.cancel_outlined,
-                                  color: AppColors.main,
-                                ))
-                            : InkWell(
-                                onTap: () async {
-                                  if (searchQueryController.text.isNotEmpty) {
-                                    setState(() {
-                                      searched = !searched;
-                                    });
-                                    handleSearch(context);
-                                  }
-                                },
-                                child: const Icon(
-                                  Icons.search,
-                                  color: AppColors.main,
-                                )),
-                        hintText: "Search Area Name",
-                        border: InputBorder.none,
-                        hintStyle: const TextStyle(color: AppColors.main),
-                      ),
-                      style: const TextStyle(
-                          color: AppColors.main, fontSize: 16.0),
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 1,
-                  color: AppColors.main,
-                ),
-                Container(
-                  color: Colors.white,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: ListTile(
-                          dense: true,
-                          onTap: () {
-                            _startDate(context);
-                          },
-                          title: const Text(
-                            'Start Date:',
-                            style: TextStyle(
-                                // fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.main),
-                          ),
-                          subtitle: Text(
-                            DateFormat.yMMMd().format(startDate),
-                          ),
-                          trailing: IconButton(
-                              onPressed: () {
-                                _startDate(context);
-                              },
-                              icon: const Icon(
-                                Icons.date_range,
-                                color: AppColors.main,
-                              )),
-                        ),
-                      ),
-                      Expanded(
-                        child: ListTile(
-                          dense: true,
-                          onTap: () {
-                            _endDate(context);
-                          },
-                          title: const Text(
-                            'End Date:',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.main),
-                          ),
-                          subtitle: Text(
-                            DateFormat.yMMMd().format(endDate),
-                          ),
-                          trailing: IconButton(
-                              onPressed: () {
-                                _endDate(context);
-                              },
-                              icon: const Icon(
-                                Icons.date_range,
-                                color: AppColors.main,
-                              )),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          body: loading == false
-              ? marker.isEmpty
-                  ? GoogleMap(
-                      initialCameraPosition: initailCameraPosition,
-                      onMapCreated: (GoogleMapController controller) {
-                        controllerMap = controller;
-                      },
-                    )
-                  : GoogleMap(
+        top: true,
+        bottom: true,
+        child: Scaffold(
+          body: FutureBuilder(
+              future: getAllComplains(),
+              builder: (context, AsyncSnapshot<ComplainModel?> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                } else if (snapshot.hasError || snapshot.data == null) {
+                  return const CircularProgressIndicator();
+                } else if (snapshot.hasData) {
+                  ComplainModel complains = snapshot.data!;
+                  controllerMap.animateCamera(CameraUpdate.newCameraPosition(
+                      CameraPosition(
+                          target: LatLng(
+                              double.parse(complains.response![0].latitude!),
+                              double.parse(complains.response![0].longitude!)),
+                          zoom: 14.4746)));
+                  return GoogleMap(
                       initialCameraPosition: initailCameraPosition,
                       markers: marker,
                       onMapCreated: (GoogleMapController controller) {
                         controllerMarker = controller;
-                      },
-                      // circles: {
-                      //   Circle(
-                      //       circleId: CircleId("i"),
-                      //       center: initialPosition,
-                      //       radius: 430,
-                      //       strokeWidth: 1,
-                      //       // strokeColor: ,
-                      //       fillColor: Color.fromARGB(255, 255, 221, 221))
-                      // },
-                      // mapType: MapType.normal,
-                      // myLocationButtonEnabled: true,
-                      // myLocationEnabled: true,
-                      // compassEnabled: false,
-                    )
-              : const Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.main,
-                  ),
-                )),
-    );
+                      });
+                } else {
+                  return const CircularProgressIndicator();
+                }
+                return const CircularProgressIndicator();
+              }),
+        ));
   }
 
   _startDate(BuildContext context) async {
