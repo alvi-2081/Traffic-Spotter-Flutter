@@ -1,6 +1,5 @@
 import 'package:crime_analysis_flutter/controllers/services/Complain%20Services/complain_services.dart';
 import 'package:crime_analysis_flutter/model/complain_model.dart';
-import 'package:crime_analysis_flutter/utilities/colors.dart';
 import 'package:crime_analysis_flutter/view/Home/custom_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -100,70 +99,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 return const CircularProgressIndicator();
               }),
         ));
-  }
-
-  _startDate(BuildContext context) async {
-    DateTime? selected = await showDatePicker(
-      context: context,
-      initialDate: startDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime.now(),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: AppColors.main, // header background color
-              // onPrimary: Colors.black, // header text color
-              onSurface: AppColors.main, // body text color
-            ),
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                foregroundColor: AppColors.main, // button text color
-              ),
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-
-    if (selected != null && selected != startDate) {
-      setState(() {
-        startDate = selected;
-      });
-    }
-  }
-
-  _endDate(BuildContext context) async {
-    DateTime? selected = await showDatePicker(
-      context: context,
-      initialDate: endDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime.now(),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: AppColors.main, // header background color
-              // onPrimary: Colors.black, // header text color
-              onSurface: AppColors.main, // body text color
-            ),
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                foregroundColor: AppColors.main, // button text color
-              ),
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-
-    if (selected != null && selected != endDate) {
-      setState(() {
-        endDate = selected;
-      });
-    }
   }
 }
 
