@@ -40,7 +40,10 @@ dependencies:
   form_field_validator: ^1.1.0
   google_maps_flutter: ^2.2.5
   geocoding: ^2.1.0
+  modal_bottom_sheet: ^3.0.0-pre
   geolocator: ^10.1.0
+  google_fonts: ^4.0.4
+
 
 dev_dependencies:
   flutter_test:
