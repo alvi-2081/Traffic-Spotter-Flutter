@@ -1,5 +1,6 @@
 import 'package:crime_analysis_flutter/utilities/routes.dart';
 import 'package:crime_analysis_flutter/view/Auth/SignIn/sign_In.dart';
+import 'package:crime_analysis_flutter/view/Home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routes: appRoutes,
-      home: SignIn(),
+      home: HomeScreen(),
     );
   }
 }
