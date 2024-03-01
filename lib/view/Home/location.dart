@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:crime_analysis_flutter/main.dart';
 import 'package:crime_analysis_flutter/model/complain_model.dart';
 
@@ -88,6 +90,7 @@ List<Response> getClosestLocations(
       return distanceToA.compareTo(distanceToB);
     });
     List<Response> sortDarta = List.from(locations.take(10));
+    log('sorted $sortDarta');
     return sortDarta;
   } catch (e) {
     return [];

@@ -35,10 +35,10 @@ class NearByGroupPreviewCard extends StatelessWidget {
               top: Get.height * 0.007,
             ),
             child: Container(
-              height: Get.height * 0.15,
+              height: Get.height * 0.25,
               width: Get.width * 0.9,
               decoration: BoxDecoration(
-                  color: Color.fromRGBO(0, 0, 0, 0.1),
+                  color: const Color.fromRGBO(0, 0, 0, 0.1),
                   borderRadius: BorderRadius.circular(5),
                   image: DecorationImage(
                     fit: BoxFit.cover,
@@ -48,26 +48,62 @@ class NearByGroupPreviewCard extends StatelessWidget {
           ),
           Expanded(
             child: Column(
-              mainAxisSize: MainAxisSize.max,
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
-                  text: title,
+                  text: 'Location : $title',
                   fontColor: Colors.black,
-                  fontSize: 0.018,
+                  fontSize: 0.04,
                   fontWeight: FontWeight.w500,
+                  padding: const EdgeInsets.symmetric(vertical: 5),
                 ),
                 CustomText(
-                  text: "$type - ${members.length} members",
+                  text: 'Uploaded By : $tagline',
                   fontColor: Colors.black,
-                  fontSize: 0.015,
+                  fontSize: 0.02,
                   fontWeight: FontWeight.w500,
+                  padding: const EdgeInsets.symmetric(vertical: 5),
                 ),
-                CustomText(
-                  text: tagline,
-                  fontSize: 0.014,
-                  fontColor: Colors.black.withOpacity(0.8),
+                const ListTile(
+                  leading: CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        Icons.account_circle,
+                        color: Colors.grey,
+                        size: 35,
+                      )),
+                  title: Text('Ahmed'),
+                  subtitle: Text('It is a busy street'),
                 ),
+                const ListTile(
+                  leading: CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        Icons.account_circle,
+                        color: Colors.grey,
+                        size: 35,
+                      )),
+                  title: Text('Farhan'),
+                  subtitle: Text('Stuck in trafic'),
+                ),
+                const ListTile(
+                  leading: CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        Icons.account_circle,
+                        color: Colors.grey,
+                        size: 35,
+                      )),
+                  title: Text('Zohaib'),
+                  subtitle: Text('Worst experience'),
+                ),
+                // CustomText(
+                //   text: "$type - ${members.length} members",
+                //   fontColor: Colors.black,
+                //   fontSize: 0.015,
+                //   fontWeight: FontWeight.w500,
+                // ),
               ],
             ),
           ),

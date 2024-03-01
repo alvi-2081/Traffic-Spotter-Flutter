@@ -3,7 +3,7 @@ import 'package:crime_analysis_flutter/model/complain_model.dart';
 import 'package:crime_analysis_flutter/view/Home/location.dart';
 import 'package:crime_analysis_flutter/view/Home/navbar_component.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' as getx;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Set<Marker> marker = {
     Marker(
       markerId: MarkerId('11'),
-      position: LatLng(24.9121, 67.0988),
+      position: LatLng(24.9204, 67.1344),
     )
   };
   // final List<Marker> _list = [];
@@ -56,20 +56,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   return const CircularProgressIndicator();
                 } else if (snapshot.hasData) {
                   ComplainModel complains = snapshot.data!;
-                  List closesrLocations =
+                  List<Response> closesrLocations =
                       getClosestLocations(complains.response!);
                   for (var location in closesrLocations) {
                     marker.add(Marker(
                       onTap: () {
                         showBarModalBottomSheet(
-                          context: Get.context!,
+                          context: getx.Get.context!,
                           shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(20))),
                           builder: (context) => NearByGroupPreviewCard(
                             groupData: location.toJson(),
                             title: location.location ?? "",
-                            tagline: "",
+                            tagline: location.victimName ?? "",
                             members: [],
                             dipslayPicture:
                                 "https://media.gettyimages.com/id/155287967/photo/cars-in-rush-hour-with-traffic-at-dawn.jpg?s=1024x1024&w=gi&k=20&c=DbF3UUfK6Vc6Xyib8oY6vxxG6RUTzOgZQUvV8GgJUN0=",
